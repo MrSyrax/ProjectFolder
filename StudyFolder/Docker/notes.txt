@@ -1,0 +1,73 @@
+// ------------------- To connect to droplet server ----------------- //
+cd .ssh
+ssh -i docker_rsa root@ipofdroplet
+
+// ---------------------- useful cmds for docker -------------------- //
+docker images - will tell me which images I have available
+
+docker ps -> to show running containers
+
+docker run -dt -p 80:80 nginx -> this will run the docker image in a container on port 80
+
+docker ps -a -> will show all containers that were running and are stopped
+
+docker run --name (give name) -dt -p 80:80 nginx
+
+docker container rm (name or id of container)
+
+docker logs (container name) -> will give you all of the logs of a container
+
+docker inspect (container name) -> will return json formatted data about it
+
+docker rmi (name of image) -> this will remove the image from available images
+ 
+docker start/stop $(docker container ls -aq) -> will start/stop all containers
+
+docker container exec -it (name or id of container) bash -> can run bash in a container
+    basically allows us to connect to the containers bash/sh
+
+docker run -v (diretory on local host):(directory on container) (container name)
+    this will allow you to map a local file directory to a directory on the container
+    ex: you have a mysql db as a container -> if you delete the container you will lose
+    all of your data, so its best to map the directory of where mysql stores the data to 
+    a local directory on the host.
+
+// -------------- To build an image from a docker file -------------- //
+docker build .
+
+    Dockerfile example:
+        FROM ubuntu
+        RUN apt-get update
+        RUN apt-get install -y nginx
+        COPY index.nginx-debian.html /var/www/html
+        CMD nginx -g 'daemon off;
+    
+    this file would run apt-get update and then install nginx
+    copies inex.nginx-debian.html into /var/www/html
+
+// --------------------- Docker File Actions ----------------------- //
+
+https://kapeli.com/cheat_sheets/Dockerfile.docset/Contents/Resources/Documents/index
+
+
+// ----------------------- WORKDIR ------------------------- // 
+
+Dockerfile - Demo Code 1:
+
+FROM busybox
+RUN mkdir -p /root/demo
+WORKDIR /root/demo
+RUN touch file01.txt
+CMD ["/bin/sh"]
+Demo Code 2:
+
+FROM busybox
+RUN mkdir -p /root/demo/context1/context2
+WORKDIR /root/demo
+WORKDIR context1
+WORKDIR context2
+RUN touch file01.txt
+CMD ["/bin/sh"]
+
+
+// ----------------------- Linux Commands -------------------------//
