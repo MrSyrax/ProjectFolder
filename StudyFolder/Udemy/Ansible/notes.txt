@@ -1,0 +1,29 @@
+install ansible on the machine you are going to be working from
+create an inventory file so you can run your configurations on those target
+servers
+
+create an ssh key
+apply your public key to all of the servers under their authorized_keys File
+in /home/ubuntu/.shh/ directory
+
+to run a single command against all machines
+
+ansible -i (locations of inventory file) -m (module name) -a (argument to pass)
+ansible -i inventory -m "shell" -a "touch devopsdemo"
+
+
+
+---
+- name: Install and start nginx
+  host: all
+  become: root
+
+  tasks:
+    - name: Install nginx
+      apt:
+        name: nginx
+        state: present
+    - name: Start nginx
+        service:
+            name: nginx
+            state: started
