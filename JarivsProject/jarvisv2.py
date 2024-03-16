@@ -2,7 +2,14 @@ import speech_recognition as sr
 import pyttsx3
 import openai
 
+#grab all of the environment variables
+import os
+from dotenv import load_dotenv
+load_dotenv()
+OPENAI_KEY = os.getenv("OPENAI_KEY")
 
+# Set the API key and create the client
+openai.api_key = OPENAI_KEY
 
 def SpeakText(command):
     # Initialize the engine
